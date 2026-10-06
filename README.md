@@ -31,7 +31,7 @@ Täida ja kinnita `assets/config.js`: ärinimi, kontaktid, tegutsemispiirkond, t
 
 Lisa kinnitatud projektifotod ja andmed inspiratsioonigalerii asemele. Praegused visuaalid on märgistatud inspiratsioonina. Kohanda kanoonilisi URL-e, sitemap'i ja jagamispildi URL-i, kui avalik domeen erineb `parketipaigaldaja.ee`-st.
 
-Avaldamist ei ole selle töö käigus käivitatud. GitHub Pagesi töövoog on omaniku loal GitHubis **peatatud** (`disabled_manually`), et main-haru push ei avaldaks lehte automaatselt. Avaldamiseks luba pärast andmete kinnitamist GitHub Actionsis töövoog uuesti ja kasuta `Run workflow` toimingut. Tähelepanu: algne töövoofail sisaldab ka main-haru push-päästikut, seega pärast uuesti lubamist käivitavad edasised push-id avaldamise. Töövoog avaldab repositooriumi staatilise sisu; ära pane repositooriumisse saladusi.
+GitHub Pagesi avaldamine on omaniku korraldusel aktiveeritud. Avalik aadress: https://404420.github.io/parketipaigaldaja/. Main-haru push käivitab avaldamise automaatselt; töövoogu saab käivitada ka GitHub Actionsi `Run workflow` toiminguga. Domeen parketipaigaldaja.ee ei ole Pagesi seadistuses veel ühendatud. Töövoog avaldab repositooriumi staatilise sisu; ära pane repositooriumisse saladusi.
 
 ## Disainistuudio
 
@@ -60,4 +60,5 @@ Higgsfieldi ja GitHubi ühendustööriistad ei olnud selles seansis saadaval. Re
 ## Piirangud
 
 3D on stiilne illustreeriv ruumimudel, mitte mõõdistatud ruumi fotorealistlik digikaksik. Ekraanitoonid ja materjalide läige sõltuvad seadmest; lõplik valik vajab päris materjalinäidist. 2D on lihtsustatud ruumiillustratsioon. Hinnad, ettevõtte faktid, päris referentsid ja e-posti saatmine vajavad omaniku kinnitatud andmeid ja seadistust.
+
 
