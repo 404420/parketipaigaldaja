@@ -1,0 +1,16 @@
+{
+  "name": "parketipaigaldaja",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/serve.mjs",
+    "lint": "node scripts/check.mjs",
+    "typecheck": "tsc --allowJs --checkJs --noEmit --target es2022 --module nodenext assets/state.js assets/config.js",
+    "test": "node --test tests/state.test.mjs",
+    "test:browser": "node tests/browser.mjs"
+  },
+  "dependencies": { "three": "0.180.0" },
+  "devDependencies": { "playwright": "1.55.1", "typescript": "5.9.2" }
+}
