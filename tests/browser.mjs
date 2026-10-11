@@ -73,6 +73,15 @@ assert.equal(await page.locator('#image-position').textContent(),'2 / 2');
 await page.keyboard.press('ArrowLeft');
 assert.equal(await page.locator('#image-position').textContent(),'1 / 2');
 await page.keyboard.press('Escape');
+assert.equal(await page.locator('#inspiratsioon .inspiration-tile').count(),10,'all ten inspiration images must be visible');
+const firstInspiration=page.locator('#inspiratsioon .inspiration-tile').first();
+await firstInspiration.click();
+assert.equal(await page.locator('#image-dialog').evaluate(d=>d.open),true);
+assert.equal(await page.locator('#image-position').textContent(),'1 / 10');
+assert.equal(await page.locator('#large-image').evaluate(el=>el.complete && el.naturalWidth > 0),true,'inspiration photo must load');
+await page.locator('#image-next').click();
+assert.equal(await page.locator('#image-position').textContent(),'2 / 10');
+await page.keyboard.press('Escape');
 await page.setViewportSize({width:360,height:800});await page.emulateMedia({reducedMotion:'reduce'});
 for(const path of ['/','/meist/','/hinnakiri/','/vali-disain/','/tehtud-tood/','/kontakt/']){await page.goto(base+path);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`overflow: ${path}`);await page.locator('.menu-toggle').click();assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'),'true');await page.locator('nav a').first().focus();await page.keyboard.press('Escape');assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'),'false');}
 await page.goto(base+'/');await page.screenshot({path:'test-results/home-mobile.png',fullPage:true});
