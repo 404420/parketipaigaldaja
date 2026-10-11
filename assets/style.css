@@ -47,18 +47,28 @@
 }
 
 /* Galerii sirvimine: klõps suurel fotol avab järgmise, all on nooled. */
-#image-dialog{width:min(96vw,1080px);max-width:1080px;max-height:95dvh;overflow:auto;padding:18px 22px 20px}
+#image-dialog{position:relative;width:min(90vw,920px);max-width:920px;max-height:90dvh;overflow:visible;padding:0;border:0;background:transparent;color:var(--ink)}
+#image-dialog::backdrop{background:#17191499;backdrop-filter:blur(1.5px)}
 #image-dialog #image-click-next{display:block;width:100%;padding:0;margin:0;border:0;background:transparent;cursor:pointer}
-#image-dialog #large-image{display:block;margin:auto;width:100%;height:auto;max-height:67dvh;object-fit:contain}
-#image-dialog .image-controls{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:10px}
-#image-dialog .image-controls button{background:var(--ink);color:var(--ivory);border:0;min-width:112px;padding:12px 18px;font-size:13px;cursor:pointer}
-#image-dialog .image-controls button:hover{background:#645240}
-#image-dialog #image-position{font-size:12px;letter-spacing:.1em;color:var(--muted);white-space:nowrap}
-#image-dialog h2{font-size:clamp(20px,2.2vw,28px);margin:10px 0}
+#image-dialog #large-image{display:block;margin:auto;width:auto;max-width:100%;height:auto;max-height:82dvh;object-fit:contain;border-radius:4px;box-shadow:0 20px 70px #0008;background:#d9d4ca}
+#image-dialog>.close-dialog{position:absolute;z-index:3;right:14px;top:14px;width:42px;height:42px;padding:0;border-radius:50%;background:#fff;color:#202520;box-shadow:0 3px 16px #0004;font-size:27px;display:grid;place-items:center}
+#image-dialog .image-controls{position:static;margin:0}
+#image-dialog .image-controls button{position:absolute;z-index:3;top:50%;transform:translateY(-50%);width:44px;height:44px;min-width:44px;padding:0;border:0;border-radius:50%;background:#fff;color:#202520;box-shadow:0 3px 16px #0004;font-size:0;display:grid;place-items:center}
+#image-dialog .image-controls button:first-child{left:14px}
+#image-dialog .image-controls button:last-child{right:14px}
+#image-dialog .image-controls button:first-child::before{content:'‹';font-size:34px;line-height:1;margin-top:-3px}
+#image-dialog .image-controls button:last-child::before{content:'›';font-size:34px;line-height:1;margin-top:-3px}
+#image-dialog .image-controls button:hover,#image-dialog>.close-dialog:hover{background:#f1eee7;transform:translateY(-50%) scale(1.05)}
+#image-dialog>.close-dialog:hover{transform:scale(1.05)}
+#image-dialog #image-position{position:absolute;z-index:3;left:50%;bottom:14px;transform:translateX(-50%);padding:7px 11px;border-radius:999px;background:#171914c9;color:#fff;font-size:11px;letter-spacing:.1em;white-space:nowrap}
+#image-dialog h2{display:none}
 @media(max-width:600px){
- #image-dialog{width:96vw;padding:16px 12px 12px}
- #image-dialog #large-image{max-height:66dvh}
- #image-dialog .image-controls button{min-width:0;padding:12px;font-size:12px}
+ #image-dialog{width:94vw}
+ #image-dialog #large-image{max-height:84dvh}
+ #image-dialog>.close-dialog{right:10px;top:10px;width:38px;height:38px}
+ #image-dialog .image-controls button{width:40px;height:40px;min-width:40px}
+ #image-dialog .image-controls button:first-child{left:10px}
+ #image-dialog .image-controls button:last-child{right:10px}
 }
 
 /* Long contact heading stays within narrow screens. */
