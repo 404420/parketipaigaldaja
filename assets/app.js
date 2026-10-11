@@ -83,8 +83,9 @@ form?.addEventListener('submit', async e => {
   } finally { button.disabled = false; }
 });
 document.querySelectorAll('[data-filter]').forEach(btn=>btn.addEventListener('click', ()=>{
-  document.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed', String(b===btn)));
-  document.querySelectorAll('.gallery-card').forEach(card=>card.hidden=btn.dataset.filter!=='all' && card.dataset.pattern!==btn.dataset.filter);
+  const section = btn.closest('.gallery-section') || document;
+  section.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed', String(b===btn)));
+  section.querySelectorAll('.gallery-card').forEach(card=>card.hidden=btn.dataset.filter!=='all' && card.dataset.pattern!==btn.dataset.filter);
 }));
 // Sirvi galerii pilte järjest. Peidetud (filtreeritud) tööd jäetakse vahele.
 let currentImageIndex = 0;
@@ -92,7 +93,7 @@ let visibleGalleryImages = [];
 const viewerImage = document.querySelector('#large-image');
 const viewerTitle = document.querySelector('#image-title');
 const viewerPosition = document.querySelector('#image-position');
-const galleryButtons = () => Array.from(document.querySelectorAll('.gallery-card:not([hidden]) [data-image]'));
+const galleryButtons = root => Array.from(root.querySelectorAll('[data-image]')).filter(el=>!el.closest('[hidden]'));
 function displayGalleryImage(nextIndex) {
   if (!visibleGalleryImages.length) return;
   currentImageIndex = (nextIndex + visibleGalleryImages.length) % visibleGalleryImages.length;
@@ -100,11 +101,12 @@ function displayGalleryImage(nextIndex) {
   viewerImage.src = button.dataset.image;
   viewerImage.alt = button.dataset.title || 'Põrandatööde foto';
   viewerTitle.textContent = button.dataset.title || '';
+  viewerTitle.hidden = !viewerTitle.textContent;
   if (viewerPosition) viewerPosition.textContent = `${currentImageIndex + 1} / ${visibleGalleryImages.length}`;
 }
 function moveGalleryImage(step) { displayGalleryImage(currentImageIndex + step); }
 document.querySelectorAll('[data-image]').forEach(btn => btn.addEventListener('click', () => {
-  visibleGalleryImages = galleryButtons();
+  visibleGalleryImages = galleryButtons(btn.closest('[data-gallery]') || document);
   currentImageIndex = visibleGalleryImages.indexOf(btn);
   if (currentImageIndex < 0) return;
   displayGalleryImage(currentImageIndex);
