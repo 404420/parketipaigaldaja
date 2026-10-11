@@ -43,9 +43,9 @@ Kõik valikud valideeritakse ühises JSDoc-tüübitud mudelis (`assets/state.js`
 
 ## Päring ja isikuandmed
 
-Vorm **ei saada praegu andmeid**. Sellel on brauseri sisendivalideerimine, laadimise ja vea olek ning tekstifaili allalaadimine. Isikuandmeid ei logita, salvestata localStorage'isse ega lisata URL-i. Faili koostamise kinnitus ütleb selgelt, et päringut ei saadetud.
+Vorm edastab kontaktandmed ja hinnapäringu Renoveeri Kodu API-aadressile `https://www.renoveerikodu.ee/api/parketi-contact.php`. Päringu valikud tulevad 3D stuudiost **ainult siis**, kui klient kinnitab oma valiku nupuga „Kinnita valik ja küsi pakkumist“. Üldise päringu puhul ei eeltäideta brauseris salvestatud näidisdisaini. Serveripoolne salvestamine tuleb enne kasutuselevõttu avalikus keskkonnas kontrollida.
 
-Saatmise ühendamiseks loo oma serveripoolne endpoint, lisa serveris valideerimine, kuritarvituse tõkestamine ja vajalik andmekaitseteave ning muuda `assets/app.js` saatmisharu. `formEndpoint` on hetkel TODO, mitte toimiv integratsioon. SMTP ja API võtmed peavad jääma serverisse. Staatilisse JS-i saladusi lisada ei tohi.
+Serveripoolne endpoint on teises repos `404420/renoveerikodu` asukohas `api/parketi-contact.php`. Selle päringud salvestatakse sama kliendihalduse `contacts` tabelisse allikaga `parketipaigaldaja.ee`. Verceli ja PHP hostingu avaldamine ning testpäring tuleb eraldi kinnitada. SMTP ja API võtmed peavad jääma serverisse. Staatilisse JS-i saladusi lisada ei tohi.
 
 ## Visuaalide päritolu
 
