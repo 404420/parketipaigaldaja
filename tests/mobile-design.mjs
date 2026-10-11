@@ -25,12 +25,12 @@ try {
   const shared=await page.locator('#share-link').inputValue();assert.ok(shared.includes('width=6.2'));
   await page.goto(shared+'&view=2d');
   assert.ok((await page.locator('#design-summary').textContent()).includes('Sirge laud'));
-  await page.locator('#design-quote').click();assert.ok((await page.locator('textarea[name=design]').inputValue()).includes('Sirge laud'));await page.keyboard.press('Escape');
+  await page.locator('#quote-area').fill('38');await page.locator('#quote-floor-type').selectOption('laudparkett');await page.locator('#design-quote').click();assert.ok((await page.locator('textarea[name=design]').inputValue()).includes('Sirge laud'));await page.keyboard.press('Escape');
   await page.locator('#reset-design').click();assert.equal(await page.locator('[data-step-tab="0"]').getAttribute('aria-selected'),'true');
   await page.screenshot({path:'test-results/design-mobile-steps.png',fullPage:true});
   for (const width of [320,390,768,1440]) {
     await page.setViewportSize({width,height:900});
-    for(const route of ['','meist','hinnakiri','tehtud-tood','vali-disain','parketi-paigaldus','laminaadi-paigaldus','parketi-parandus','privaatsuspoliitika']) {
+    for(const route of ['','meist','hinnakiri','tehtud-tood','kontakt','vali-disain','parketi-paigaldus','laminaadi-paigaldus','parketi-parandus','privaatsuspoliitika']) {
       await page.goto('http://127.0.0.1:4173/'+(route?route+'/':''));
       assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${width}px ${route}: overflow`);
       await page.evaluate(()=>document.querySelectorAll('img[src]').forEach(i=>i.loading='eager'));
@@ -39,5 +39,5 @@ try {
     }
   }
   assert.deepEqual(errors,[]);
-  console.log('Telefon: sammud, kiirvalikud, nähtav eelvaade, salvestus, jagamine ja päring korras. 9 lehte kontrollitud 320–1440 px, pildid ja JSON-LD laevad.');
+  console.log('Telefon: sammud, kiirvalikud, nähtav eelvaade, salvestus, jagamine ja päring korras. 10 lehte kontrollitud 320–1440 px, pildid ja JSON-LD laevad.');
 } finally { await browser.close(); }
