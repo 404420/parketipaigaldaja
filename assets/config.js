@@ -3,8 +3,9 @@
 export const company = {
   brand: 'parketipaigaldaja.ee',
   legalName: 'RK Meistrid OÜ',
+  registryCode: '16541086',
   email: 'info@renoveerikodu.ee',
-  phone: '+372 5551 5783',
+  phone: '+372 5853 1832',
   region: 'Tallinn ja Harjumaa',
   vatNote: 'Hinnad on töö alghinnad. Käibemaksu kohaldumine täpsustatakse pakkumises.',
   materialNote: 'Materjalid ja aluspõranda ettevalmistus hinnastatakse eraldi, kui pole teisiti kokku lepitud.',
