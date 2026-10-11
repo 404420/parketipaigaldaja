@@ -1,6 +1,6 @@
 # parketipaigaldaja.ee
 
-Eestikeelne staatiline veebileht: HTML, CSS ja brauseri JavaScript. Ei vaja Next.js-i, Reacti, andmebaasi ega serveripoolset renderdamist. Kõik viis lehte on päris HTML-failid. 3D sõltuvused on kohalikud ja laaditakse ainult disainistuudios.
+Eestikeelne staatiline veebileht: HTML, CSS ja brauseri JavaScript. Ei vaja Next.js-i, Reacti, andmebaasi ega serveripoolset renderdamist. Kõik kuus lehte on päris HTML-failid. 3D sõltuvused on kohalikud ja laaditakse ainult disainistuudios.
 
 ## Käivitamine ja kontrollid
 
