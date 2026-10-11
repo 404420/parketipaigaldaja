@@ -99,10 +99,17 @@ function displayGalleryImage(nextIndex) {
   currentImageIndex = (nextIndex + visibleGalleryImages.length) % visibleGalleryImages.length;
   const button = visibleGalleryImages[currentImageIndex];
   viewerImage.src = button.dataset.image;
-  viewerImage.alt = button.dataset.title || 'Põrandatööde foto';
+  viewerImage.alt = button.querySelector('img')?.alt || button.dataset.title || 'Põrandatööde foto';
   viewerTitle.textContent = button.dataset.title || '';
   viewerTitle.hidden = !viewerTitle.textContent;
   if (viewerPosition) viewerPosition.textContent = `${currentImageIndex + 1} / ${visibleGalleryImages.length}`;
+
+  // Eellaadi kõrvalfotod, et noolega, klõpsates või pühkides liikumine oleks viivituseta.
+  for (const offset of [-1, 1]) {
+    const adjacentIndex = (currentImageIndex + offset + visibleGalleryImages.length) % visibleGalleryImages.length;
+    const adjacentUrl = visibleGalleryImages[adjacentIndex]?.dataset.image;
+    if (adjacentUrl) new Image().src = adjacentUrl;
+  }
 }
 function moveGalleryImage(step) { displayGalleryImage(currentImageIndex + step); }
 document.querySelectorAll('[data-image]').forEach(btn => btn.addEventListener('click', () => {
@@ -114,7 +121,27 @@ document.querySelectorAll('[data-image]').forEach(btn => btn.addEventListener('c
 }));
 document.querySelector('#image-prev')?.addEventListener('click', () => moveGalleryImage(-1));
 document.querySelector('#image-next')?.addEventListener('click', () => moveGalleryImage(1));
-document.querySelector('#image-click-next')?.addEventListener('click', () => moveGalleryImage(1));
+const imageClickTarget = document.querySelector('#image-click-next');
+imageClickTarget?.addEventListener('click', () => moveGalleryImage(1));
+
+// Telefonis saab fotosid vahetada loomuliku vasakule/paremale pühkimisega.
+// Vertikaalset kerimist ei käsitleta galeriiliigutusena.
+let swipeStartX = 0;
+let swipeStartY = 0;
+imageClickTarget?.addEventListener('touchstart', event => {
+  const touch = event.changedTouches[0];
+  swipeStartX = touch.clientX;
+  swipeStartY = touch.clientY;
+}, { passive: true });
+imageClickTarget?.addEventListener('touchend', event => {
+  const touch = event.changedTouches[0];
+  const deltaX = touch.clientX - swipeStartX;
+  const deltaY = touch.clientY - swipeStartY;
+  if (Math.abs(deltaX) >= 50 && Math.abs(deltaX) > Math.abs(deltaY) * 1.2) {
+    event.preventDefault();
+    moveGalleryImage(deltaX < 0 ? 1 : -1);
+  }
+}, { passive: false });
 document.addEventListener('keydown', event => {
   if (!imageDialog?.open) return;
   if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
