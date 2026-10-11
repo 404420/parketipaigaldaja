@@ -18,7 +18,10 @@ const galleryPhotos = [
   ["projects/parkett-aluspind.webp", "Renoveeri Kodu aluspõranda ettevalmistus"],
   ["projects/parkett-paigaldus_tallinn.webp", "Renoveeri Kodu parketilaudade paigaldus"],
   ["projects/parkett-viimistlus.webp", "Renoveeri Kodu parketi viimistlus"],
-  ["inspiratsioon/kalasabaparkett-naidisprojekt.jpg", "Kalasabaparketiga elutoa näidisprojekt", "Näidisprojekt · AI-visualiseering"],
+  ["inspiratsioon/kalasabaparkett-kook-1.jpg", "Kalasabaparkett köögis"],
+  ["inspiratsioon/kalasabaparkett-soogiala.jpg", "Kalasabaparkett söögialal"],
+  ["inspiratsioon/kalasabaparkett-nomme.jpg", "Kalasabaparkett Nõmme kodus"],
+  ["inspiratsioon/kalasabaparkett-kook-2.jpg", "Kalasabaparkett köögis ja elutoas"],
 ];
 const inspirationGallery = base => `<section class="section inspiration-section" id="galerii" aria-labelledby="gallery-title"><div class="inspiration-header"><div><p class="eyebrow">Galerii</p><h2 id="gallery-title">Tehtud tööd.</h2></div></div><div class="inspiration-gallery" data-gallery="tehtud-tood">${galleryPhotos.map(([file,alt,label]) => `<button type="button" class="inspiration-tile" data-image="${base}assets/${file}" data-title="${label || ''}" aria-label="Suurenda pilti: ${alt}"><img src="${base}assets/${file}" alt="${alt}" width="1200" height="900" loading="lazy" decoding="async">${label ? `<span class="gallery-badge">${label}</span>` : ''}</button>`).join('')}</div></section>`;
 const arrow = '<span aria-hidden="true">↗</span>';
