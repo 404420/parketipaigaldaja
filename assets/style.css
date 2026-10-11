@@ -37,3 +37,11 @@
 .request-selection #request-selection-summary{white-space:pre-line;line-height:1.7;margin:0;font-size:14px}
 @media(max-width:850px){.contact-grid{grid-template-columns:1fr;gap:18px;padding-top:20px}}
 @media(max-width:480px){.contact-panel{padding:22px}.contact-details dd{font-size:18px}}
+
+/* Mahuta kuue lingiga põhimenüü ka kitsamale arvutiekraanile. */
+@media (min-width:851px) and (max-width:1200px) {
+  .site-header{gap:10px;padding:18px 2.5%}
+  .site-header nav{gap:10px;font-size:11px}
+  .site-header nav .nav-cta{padding:12px 13px;font-size:11px}
+  .site-header .logo{font-size:15px}
+}
