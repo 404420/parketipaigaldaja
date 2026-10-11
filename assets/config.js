@@ -9,7 +9,7 @@ export const company = {
   region: 'Tallinn ja Harjumaa',
   vatNote: 'Hinnad on töö alghinnad. Käibemaksu kohaldumine täpsustatakse pakkumises.',
   materialNote: 'Materjalid ja aluspõranda ettevalmistus hinnastatakse eraldi, kui pole teisiti kokku lepitud.',
-  formEndpoint: 'https://www.renoveerikodu.ee/api/parketi-contact.php',
+  formEndpoint: 'https://renoveerikodu.ee/api/parket-contact.php',
 };
 /** @type {Service[]} */
 export const services = [

@@ -60,3 +60,6 @@
  #image-dialog #large-image{max-height:66dvh}
  #image-dialog .image-controls button{min-width:0;padding:12px;font-size:12px}
 }
+
+/* Long contact heading stays within narrow screens. */
+@media (max-width: 480px) { body[data-page="kontakt"] .page-heading h1 { overflow-wrap: anywhere; } }

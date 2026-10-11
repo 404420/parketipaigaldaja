@@ -1,3 +1,4 @@
+import { prepareContact, sendContact } from './contact.js';
 import { company, services, patternPrices } from './config.js';
 import { defaults, options, validateDesign, summary, STORAGE_KEY } from './state.js';
 const menu = document.querySelector('.menu-toggle');
@@ -65,6 +66,7 @@ export function openQuote(context = {}) {
   document.querySelector('#form-status').textContent = '';
   openDialog(quoteDialog);
   form.elements.name.focus();
+  prepareContact().catch(error => { document.querySelector('#form-status').textContent = error.message; });
 }
 document.querySelectorAll('[data-quote]').forEach(btn=>btn.addEventListener('click', ()=>openQuote()));
 form?.addEventListener('submit', async e => {
@@ -74,15 +76,7 @@ form?.addEventListener('submit', async e => {
   const button = form.querySelector('[type=submit]');
   button.disabled = true; status.textContent = 'Saadan hinnapäringut…';
   try {
-    const data = new FormData(form);
-    data.set('consent','yes');
-    if (!company.formEndpoint) throw new Error('Päringute saatmise aadress pole seadistatud.');
-    const response = await fetch(company.formEndpoint,{
-      method:'POST',body:data,headers:{Accept:'application/json'},mode:'cors',credentials:'omit'
-    });
-    const result = await response.json().catch(()=>({success:false,message:'Server ei tagastanud korrektset vastust.'}));
-    if(!response.ok || !result.success) throw new Error(result.message || 'Päringu saatmine ebaõnnestus.');
-    status.textContent = result.message || 'Aitäh! Päring on saadetud.';
+    status.textContent = await sendContact(form);
     form.reset();
   } catch (error) {
     status.textContent = (error instanceof Error ? error.message : 'Päringu saatmine ebaõnnestus.') + ' Kui probleem kordub, kirjuta info@renoveerikodu.ee.';
