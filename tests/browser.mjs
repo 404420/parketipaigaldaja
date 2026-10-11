@@ -38,7 +38,23 @@ await page.waitForFunction(()=>document.querySelector('#form-status')?.textConte
 await page.keyboard.press('Escape');
 await page.goto(base+'/vali-disain/?wall=bad&width=-10&pattern=invalid&view=2d');assert.equal(await page.locator('[data-key=wall][data-value=ivory]').getAttribute('aria-pressed'),'true');assert.equal(await page.locator('#room-width').inputValue(),'5');await page.locator('[data-key=floor][data-value=light]').click();await page.screenshot({path:'test-results/design-fallback.png',fullPage:true});
 await page.goto(base+'/hinnakiri/');await page.locator('#calc-area').fill('47');await page.locator('#calc-pattern').selectOption('chevron');await page.locator('#calculator [type=submit]').click();assert.equal(await page.locator('#quote-form [name=area]').inputValue(),'47');await page.keyboard.press('Escape');
-await page.goto(base+'/tehtud-tood/');await page.locator('[data-filter=projekt]').click();assert.equal(await page.locator('.gallery-card:visible').count(),2);await page.locator('.gallery-card:visible [data-image]').first().click();assert.equal(await page.locator('#image-dialog').evaluate(d=>d.open),true);await page.keyboard.press('Escape');
+await page.goto(base+'/tehtud-tood/');
+await page.locator('[data-filter=projekt]').click();
+assert.equal(await page.locator('.gallery-card:visible').count(),2);
+await page.locator('.gallery-card:visible [data-image]').first().click();
+assert.equal(await page.locator('#image-dialog').evaluate(d=>d.open),true);
+assert.equal(await page.locator('#image-position').textContent(),'1 / 2');
+const before=await page.locator('#large-image').getAttribute('src');
+await page.locator('#image-click-next').click();
+assert.notEqual(await page.locator('#large-image').getAttribute('src'),before);
+assert.equal(await page.locator('#image-position').textContent(),'2 / 2');
+await page.keyboard.press('ArrowRight');
+assert.equal(await page.locator('#large-image').getAttribute('src'),before,'next wraps around');
+await page.locator('#image-prev').click();
+assert.equal(await page.locator('#image-position').textContent(),'2 / 2');
+await page.keyboard.press('ArrowLeft');
+assert.equal(await page.locator('#image-position').textContent(),'1 / 2');
+await page.keyboard.press('Escape');
 await page.setViewportSize({width:360,height:800});await page.emulateMedia({reducedMotion:'reduce'});
 for(const path of ['/','/meist/','/hinnakiri/','/vali-disain/','/tehtud-tood/','/kontakt/']){await page.goto(base+path);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`overflow: ${path}`);await page.locator('.menu-toggle').click();assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'),'true');await page.locator('nav a').first().focus();await page.keyboard.press('Escape');assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'),'false');}
 await page.goto(base+'/');await page.screenshot({path:'test-results/home-mobile.png',fullPage:true});
