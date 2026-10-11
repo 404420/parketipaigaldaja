@@ -21,7 +21,7 @@ npm test
 npm run test:browser
 ```
 
-Brauserikontroll kasutab kohalikku Microsoft Edge'i ja nõuab töötavat dev-serverit. Kontrollib viit marsruuti, 360 px vaadet, reduced-motion režiimi, disaini püsimist, jagamislingi taastamist, vigast URL-i, 2D eelvaadet, galeriid ja päringu allalaadimist.
+Brauserikontroll kasutab kohalikku Microsoft Edge'i ja nõuab töötavat dev-serverit. Kontrollib viit marsruuti, 360 px vaadet, reduced-motion režiimi, disaini püsimist, jagamislingi taastamist, vigast URL-i, 2D eelvaadet, galeriid ning päringu saatmise edu- ja veaolekut simuleeritud API-ga.
 
 HTML-i sisu muuda failis `scripts/build.mjs` ja käivita `npm run build`. Stiilid: `assets/style.css`. Ühised käitumised: `assets/app.js`. 3D: `assets/room3d.js`; põrandamustrid ja 2D: `assets/floor.js`.
 
@@ -43,9 +43,9 @@ Kõik valikud valideeritakse ühises JSDoc-tüübitud mudelis (`assets/state.js`
 
 ## Päring ja isikuandmed
 
-Vorm **ei saada praegu andmeid**. Sellel on brauseri sisendivalideerimine, laadimise ja vea olek ning tekstifaili allalaadimine. Isikuandmeid ei logita, salvestata localStorage'isse ega lisata URL-i. Faili koostamise kinnitus ütleb selgelt, et päringut ei saadetud.
+Vorm saadab andmed aadressile https://renoveerikodu.ee/api/parket-contact.php. Edu kuvatakse ainult serveri kinnitatud andmebaasisalvestuse järel; vea korral jäävad sisestatud andmed vormi alles. Isikuandmeid ei lisata localStorage'isse ega jagamislingile.
 
-Saatmise ühendamiseks loo oma serveripoolne endpoint, lisa serveris valideerimine, kuritarvituse tõkestamine ja vajalik andmekaitseteave ning muuda `assets/app.js` saatmisharu. `formEndpoint` on hetkel TODO, mitte toimiv integratsioon. SMTP ja API võtmed peavad jääma serverisse. Staatilisse JS-i saladusi lisada ei tohi.
+Serverifail ja paigaldusjuhend asuvad kaustas [integration/renoveerikodu](integration/renoveerikodu/PAIGALDUS.md). Fail tuleb enne avaldamist renoveerikodu.ee majutusse lisada. See kasutab olemasolevat contact.php ning salvestab päringud contacts tabelisse allikaga parketipaigaldaja.ee. Admini sisselogimine jääb olemasoleva süsteemi hallata. CAPTCHA avalik seadistus laaditakse samalt vastuvõtuaadressilt; salajased võtmed jäävad serverisse.
 
 ## Visuaalide päritolu
 

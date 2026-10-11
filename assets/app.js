@@ -1,4 +1,5 @@
 import { company, services, patternPrices } from './config.js';
+import { prepareContact, sendContact } from './contact.js';
 import { defaults, options, validateDesign, summary, STORAGE_KEY } from './state.js';
 const menu = document.querySelector('.menu-toggle');
 const nav = document.querySelector('#main-nav');
@@ -32,6 +33,7 @@ export function openQuote(context = {}) {
   document.querySelector('#form-status').textContent = '';
   openDialog(quoteDialog);
   form.elements.name.focus();
+  prepareContact().catch(error => { document.querySelector('#form-status').textContent = error.message; });
 }
 document.querySelectorAll('[data-quote]').forEach(btn=>btn.addEventListener('click', ()=>openQuote()));
 form?.addEventListener('submit', async e => {
@@ -39,16 +41,13 @@ form?.addEventListener('submit', async e => {
   const status = document.querySelector('#form-status');
   if (!form.reportValidity()) return;
   const button = form.querySelector('[type=submit]');
-  button.disabled = true; status.textContent = 'Koostan päringut…';
+  button.disabled = true; status.textContent = 'Saadan päringut…';
   try {
     const data = Object.fromEntries(new FormData(form));
     if (!String(data.name).trim() || !String(data.location).trim()) throw new Error('Palun sisesta nimi ja asukoht.');
-    const text = `PARKETIPAIGALDAJA.EE — HINNAPÄRING\n\nNimi: ${data.name}\nE-post: ${data.email}\nTelefon: ${data.phone || '—'}\nAsukoht: ${data.location}\nPindala: ${data.area} m²\nSoovitud aeg: ${data.timing || '—'}\n\nDisain / lähteülesanne:\n${data.design}\n\nKirjeldus:\n${data.message || '—'}\n\nEsialgne lähteülesanne, mitte siduv pakkumine. Toonid on illustratiivsed.\n`;
-    // Download-only mode. No personal data is logged, persisted or sent.
-    const url = URL.createObjectURL(new Blob(['\ufeff'+text], { type: 'text/plain;charset=utf-8' }));
-    const link = document.createElement('a'); link.href = url; link.download = 'parketi-hinnaparing.txt'; document.body.append(link); link.click(); link.remove(); setTimeout(()=>URL.revokeObjectURL(url),1000);
-    status.textContent = 'Päringu fail on koostatud ja allalaadimine käivitatud. Päringut ei saadetud; edasta fail ise ettevõttele.';
-  } catch (error) { status.textContent = error.message || 'Faili koostamine ei õnnestunud. Proovi uuesti.'; }
+    status.textContent = await sendContact(form);
+    form.reset();
+  } catch (error) { status.textContent = error.message || 'Päringu saatmine ei õnnestunud. Proovi uuesti.'; }
   finally { button.disabled = false; }
 });
 document.querySelectorAll('[data-filter]').forEach(btn=>btn.addEventListener('click', ()=>{

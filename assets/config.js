@@ -8,7 +8,7 @@ export const company = {
   region: null, // TODO: tegutsemispiirkond
   vatNote: null, // TODO: käibemaksu käsitlus
   materialNote: null, // TODO: materjalide hinna käsitlus
-  formEndpoint: null, // TODO: oma serveri HTTPS endpoint
+  formEndpoint: 'https://renoveerikodu.ee/api/parket-contact.php',
 };
 /** @type {Service[]} */
 export const services = [

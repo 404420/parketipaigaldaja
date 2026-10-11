@@ -6,6 +6,13 @@ const browser=await chromium.launch({channel:'msedge',headless:true});
 const context=await browser.newContext({viewport:{width:1440,height:1000},acceptDownloads:true});
 const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
 const base='http://127.0.0.1:4173';
+let submitted;
+let failSubmission = false;
+await context.route('https://renoveerikodu.ee/api/parket-contact.php', async route => {
+  if (route.request().method() === 'GET') return route.fulfill({json:{success:true,captchaRequired:false,siteKey:''}});
+  submitted = route.request().postData();
+  return route.fulfill({status:failSubmission ? 500 : 200,json:failSubmission ? {success:false,message:'Salvestamine ebaõnnestus.'} : {success:true,db_saved:true,message:'Aitäh! Päring on saadetud.'}});
+});
 for(const path of ['/','/meist/','/hinnakiri/','/vali-disain/','/tehtud-tood/']){await page.goto(base+path);await page.locator('h1').waitFor();assert.equal(await page.locator('html').getAttribute('lang'),'et');assert.equal(await page.locator('nav a[aria-current="page"]').count(),1);}
 await page.goto(base+'/');await page.waitForTimeout(850);await page.evaluate(()=>document.querySelectorAll('img').forEach(i=>i.loading='eager'));await page.waitForFunction(()=>Array.from(document.querySelectorAll('img[src]')).every(i=>i.complete&&i.naturalWidth>0));await page.screenshot({path:'test-results/home-desktop.png',fullPage:true});
 await page.goto(base+'/vali-disain/');await page.waitForFunction(()=>!document.querySelector('#scene-status').textContent.includes('laadib'),{timeout:30000});
@@ -19,7 +26,17 @@ assert.equal(await page.locator('#room-width').inputValue(),'6.3');await page.lo
 await page.goto(link);assert.equal(await page.locator('[data-key=wall][data-value=sage]').getAttribute('aria-pressed'),'true');
 await page.locator('#design-quote').click();assert.ok((await page.locator('textarea[name=design]').inputValue()).includes('Chevron'));
 await page.locator('[name=name]').fill('Testkasutaja');await page.locator('[name=email]').fill('test@example.com');await page.locator('[name=location]').fill('Testlinn');await page.locator('[name=consent]').check();
-const downloadPromise=page.waitForEvent('download');await page.locator('#quote-form [type=submit]').click();const download=await downloadPromise;assert.equal(download.suggestedFilename(),'parketi-hinnaparing.txt');assert.ok((await page.locator('#form-status').textContent()).includes('ei saadetud'));await page.keyboard.press('Escape');
+failSubmission = true;
+await page.locator('#quote-form [type=submit]').click();
+await page.waitForFunction(()=>document.querySelector('#form-status').textContent.includes('Salvestamine ebaõnnestus'));
+assert.equal(await page.locator('[name=name]').inputValue(),'Testkasutaja');
+assert.equal(await page.locator('#quote-form [type=submit]').isEnabled(),true);
+failSubmission = false;
+await page.locator('#quote-form [type=submit]').click();
+await page.waitForFunction(()=>document.querySelector('#form-status').textContent.includes('Päring on saadetud'));
+assert.ok(submitted.includes('Testkasutaja') && submitted.includes('Chevron') && submitted.includes('Testlinn'));
+assert.equal(await page.locator('[name=name]').inputValue(),'');
+await page.keyboard.press('Escape');
 await page.goto(base+'/vali-disain/?wall=bad&width=-10&pattern=invalid&view=2d');assert.equal(await page.locator('[data-key=wall][data-value=ivory]').getAttribute('aria-pressed'),'true');assert.equal(await page.locator('#room-width').inputValue(),'5');await page.locator('[data-key=floor][data-value=light]').click();await page.screenshot({path:'test-results/design-fallback.png',fullPage:true});
 await page.goto(base+'/hinnakiri/');await page.locator('#calc-area').fill('47');await page.locator('#calc-pattern').selectOption('chevron');await page.locator('#calculator [type=submit]').click();assert.equal(await page.locator('#quote-form [name=area]').inputValue(),'47');await page.keyboard.press('Escape');
 await page.goto(base+'/tehtud-tood/');await page.locator('[data-filter=chevron]').click();assert.equal(await page.locator('.gallery-card:visible').count(),1);await page.locator('.gallery-card:visible [data-image]').click();assert.equal(await page.locator('#image-dialog').evaluate(d=>d.open),true);await page.keyboard.press('Escape');
