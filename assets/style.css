@@ -15,3 +15,7 @@
 
 .footer-services{grid-column:1/-1;margin-top:10px}.footer-services .service-navigation{padding:0;margin:0}.footer-services a{border-color:#60655b;font-size:12px}
 @media(max-width:900px){.design-panel fieldset{min-inline-size:0}.swatches{flex-wrap:wrap}.swatch-button{flex:0 0 calc(33.333% - 7px);min-width:0}.option-button{min-width:0}.design-steps{min-width:0;max-width:100%}}
+
+/* Proportsionaalsed pildid arvutivaates. */
+@media(min-width:901px){.hero{min-height:0;max-width:1440px;align-items:center}.hero-image{height:clamp(380px,34vw,560px);min-height:0}.hero-image>img{height:100%;min-height:0}.design-teaser{align-items:center}.teaser-art{height:clamp(340px,31vw,460px);min-height:0}.teaser-art>img{height:100%}.about-layout img{height:clamp(320px,34vw,470px)}.editorial-layout figure{max-width:560px;width:100%;justify-self:center}.editorial-layout figure img{max-height:420px;aspect-ratio:4/3;object-fit:cover}.material-grid img{height:clamp(150px,16vw,220px)}.gallery-image img{height:clamp(195px,19vw,260px)}}
+.quote-selection{margin:24px 0;padding:22px;background:#eee9df;border:1px solid var(--line)}.quote-selection h3{font-size:23px;margin:0 0 12px}.quote-selection label{display:block;font-weight:600;font-size:13px;margin:14px 0 6px}.quote-selection input,.quote-selection select{width:100%;padding:12px;border:1px solid var(--line);background:var(--white);border-radius:3px}.quote-selection .small{margin:8px 0 0}@media(max-width:600px){.quote-selection{padding:17px;margin:18px 0}.editorial-layout figure img{max-height:340px;aspect-ratio:4/3}}
