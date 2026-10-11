@@ -78,7 +78,7 @@ const firstInspiration=page.locator('#inspiratsioon .inspiration-tile').first();
 await firstInspiration.click();
 assert.equal(await page.locator('#image-dialog').evaluate(d=>d.open),true);
 assert.equal(await page.locator('#image-position').textContent(),'1 / 10');
-assert.equal(await page.locator('#large-image').evaluate(el=>el.complete && el.naturalWidth > 0),true,'inspiration photo must load');
+await page.waitForFunction(() => { const el = document.querySelector('#large-image'); return el?.complete && el.naturalWidth > 0; });
 await page.locator('#image-next').click();
 assert.equal(await page.locator('#image-position').textContent(),'2 / 10');
 await page.keyboard.press('Escape');
