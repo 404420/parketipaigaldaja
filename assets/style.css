@@ -45,3 +45,18 @@
   .site-header nav .nav-cta{padding:12px 13px;font-size:11px}
   .site-header .logo{font-size:15px}
 }
+
+/* Galerii sirvimine: klõps suurel fotol avab järgmise, all on nooled. */
+#image-dialog{width:min(96vw,1080px);max-width:1080px;max-height:95dvh;overflow:auto;padding:18px 22px 20px}
+#image-dialog #image-click-next{display:block;width:100%;padding:0;margin:0;border:0;background:transparent;cursor:pointer}
+#image-dialog #large-image{display:block;margin:auto;width:100%;height:auto;max-height:67dvh;object-fit:contain}
+#image-dialog .image-controls{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:10px}
+#image-dialog .image-controls button{background:var(--ink);color:var(--ivory);border:0;min-width:112px;padding:12px 18px;font-size:13px;cursor:pointer}
+#image-dialog .image-controls button:hover{background:#645240}
+#image-dialog #image-position{font-size:12px;letter-spacing:.1em;color:var(--muted);white-space:nowrap}
+#image-dialog h2{font-size:clamp(20px,2.2vw,28px);margin:10px 0}
+@media(max-width:600px){
+ #image-dialog{width:96vw;padding:16px 12px 12px}
+ #image-dialog #large-image{max-height:66dvh}
+ #image-dialog .image-controls button{min-width:0;padding:12px;font-size:12px}
+}
