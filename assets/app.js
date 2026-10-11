@@ -92,10 +92,40 @@ document.querySelectorAll('[data-filter]').forEach(btn=>btn.addEventListener('cl
   document.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed', String(b===btn)));
   document.querySelectorAll('.gallery-card').forEach(card=>card.hidden=btn.dataset.filter!=='all' && card.dataset.pattern!==btn.dataset.filter);
 }));
-document.querySelectorAll('[data-image]').forEach(btn=>btn.addEventListener('click', ()=>{
-  const image = document.querySelector('#large-image'); image.src=btn.dataset.image; image.alt=btn.dataset.title;
-  document.querySelector('#image-title').textContent=btn.dataset.title; openDialog(imageDialog);
+// Sirvi galerii pilte järjest. Peidetud (filtreeritud) tööd jäetakse vahele.
+let currentImageIndex = 0;
+let visibleGalleryImages = [];
+const viewerImage = document.querySelector('#large-image');
+const viewerTitle = document.querySelector('#image-title');
+const viewerPosition = document.querySelector('#image-position');
+const galleryButtons = () => Array.from(document.querySelectorAll('.gallery-card:not([hidden]) [data-image]'));
+function displayGalleryImage(nextIndex) {
+  if (!visibleGalleryImages.length) return;
+  currentImageIndex = (nextIndex + visibleGalleryImages.length) % visibleGalleryImages.length;
+  const button = visibleGalleryImages[currentImageIndex];
+  viewerImage.src = button.dataset.image;
+  viewerImage.alt = button.dataset.title || 'Põrandatööde foto';
+  viewerTitle.textContent = button.dataset.title || '';
+  if (viewerPosition) viewerPosition.textContent = `${currentImageIndex + 1} / ${visibleGalleryImages.length}`;
+}
+function moveGalleryImage(step) { displayGalleryImage(currentImageIndex + step); }
+document.querySelectorAll('[data-image]').forEach(btn => btn.addEventListener('click', () => {
+  visibleGalleryImages = galleryButtons();
+  currentImageIndex = visibleGalleryImages.indexOf(btn);
+  if (currentImageIndex < 0) return;
+  displayGalleryImage(currentImageIndex);
+  openDialog(imageDialog);
 }));
+document.querySelector('#image-prev')?.addEventListener('click', () => moveGalleryImage(-1));
+document.querySelector('#image-next')?.addEventListener('click', () => moveGalleryImage(1));
+document.querySelector('#image-click-next')?.addEventListener('click', () => moveGalleryImage(1));
+document.addEventListener('keydown', event => {
+  if (!imageDialog?.open) return;
+  if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+    event.preventDefault();
+    moveGalleryImage(event.key === 'ArrowRight' ? 1 : -1);
+  }
+});
 const calculator = document.querySelector('#calculator');
 if (calculator) {
   function calculate() {
