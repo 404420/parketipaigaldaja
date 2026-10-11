@@ -3,7 +3,7 @@ import { images, photo, projectGallery, faqs, faqSection, materials, serviceLink
 import { company, services } from '../assets/config.js';
 const routes = [['', 'Avaleht'], ['meist', 'Meist'], ['hinnakiri', 'Hinnakiri'], ['vali-disain', 'Vali disain'], ['tehtud-tood', 'Tehtud tööd'], ['kontakt', 'Kontakt']];
 const inspirationPhotos = [["elutuba-tammeparkett.webp","Hele tammepõrand elutoas"],["kalasabaparkett-soogituba.webp","Kalasabaparkett söögitoas"],["tammeparkett-esik.webp","Tammepõrand esikus"],["parkett-magamistuba.webp","Parkett magamistoas"],["parkett-kook.webp","Puitpõrand köögis"],["tammepuidust-trepp.webp","Tammepuidust trepp"],["parkett-elutoas.webp","Puitpõrandaga elutuba"],["tammeparketiga-elutuba.webp","Tammeparketiga elutuba"],["kalasabaparkett-kook.webp","Kalasabaparkett köögis"],["tammeparkett-detail.webp","Parketipinna detail"]];
-const inspirationGallery = base => `<section class="section inspiration-section" id="inspiratsioon" aria-labelledby="inspiration-title"><div class="inspiration-header"><div><p class="eyebrow">Põrandaideed</p><h2 id="inspiration-title">Inspiratsioon sinu koju.</h2><p>Erinevad puidutoonid, mustrid ja ruumilahendused aitavad oma põranda ilmet ette kujutada.</p></div><a class="text-button" href="${base}vali-disain/">Katseta oma põrandat 3D stuudios ↗</a></div><div class="inspiration-gallery" data-gallery="inspiratsioon">${inspirationPhotos.map(([file,alt]) => `<button type="button" class="inspiration-tile" data-image="${base}assets/inspiratsioon/${file}" data-title="" aria-label="Suurenda pilti: ${alt}"><img src="${base}assets/inspiratsioon/${file}" alt="${alt}" width="1200" height="900" loading="lazy" decoding="async"></button>`).join('')}</div></section>`;
+const inspirationGallery = base => `<section class="section inspiration-section" id="galerii" aria-labelledby="gallery-title"><div class="inspiration-header"><div><p class="eyebrow">Galerii</p><h2 id="gallery-title">Tehtud tööd.</h2></div></div><div class="inspiration-gallery" data-gallery="tehtud-tood">${inspirationPhotos.map(([file,alt]) => `<button type="button" class="inspiration-tile" data-image="${base}assets/inspiratsioon/${file}" data-title="" aria-label="Suurenda pilti: ${alt}"><img src="${base}assets/inspiratsioon/${file}" alt="${alt}" width="1200" height="900" loading="lazy" decoding="async"></button>`).join('')}</div></section>`;
 const arrow = '<span aria-hidden="true">↗</span>';
 const button = (label, href, cls = '') => `<a class="button ${cls}" href="${href}">${label}${arrow}</a>`;
 const eyebrow = text => `<p class="eyebrow">${text}</p>`;
@@ -50,8 +50,8 @@ const pages = {
     <div class="contact-panel contact-action"><p class="eyebrow">Küsi hinnapakkumist</p><h2>Kirjelda oma tööd.</h2><p>Hinnapäringu jaoks lisa põrandakatte tüüp, paigaldatava pinna suurus, asukoht ning võimalusel info aluspõranda kohta. See aitab meil anda täpsema vastuse.</p><button class="button" data-quote>Saada hinnapäring ${arrow}</button><p>Soovid kõigepealt põranda tooni või mustrit proovida? <a class="text-button" href="../vali-disain/">Ava 3D disainistuudio ↗</a> ja kinnita seal oma valik enne päringu saatmist.</p></div></section>`,
   },
   'tehtud-tood': {
-    title: 'Parketitööde fotod ja materjalinäidised', description: 'Parketi paigaldamise ja põrandaviimistluse fotod, aluspinna ettevalmistus ning materjalide ja taastamise näidised.',
-    body: `<section class="page-heading section">${heading('Galerii / Põrandatööd', 'Põrandatööd.<br><em>Detailidest tervikuni.</em>', 'Tööfotod ja materjalinäidised aitavad oma põrandat paremini planeerida.')}</section><section class="section gallery-section"><div class="filters" role="group" aria-label="Filtreeri pilte">${[['all','Kõik pildid'],['projekt','Valmis põrandad'],['tooprotsess','Tööprotsess'],['naidis','Näidised']].map(([id,name])=>`<button data-filter="${id}" aria-pressed="${id==='all'}">${name}</button>`).join('')}</div>${projectGallery('../')}</section>${inspirationGallery('../')}${cta('../')}`,
+    title: 'Tehtud tööd', description: 'Valik valminud parketi- ja puitpõrandatöödest Tallinnas ning Harjumaal.',
+    body: `<section class="page-heading section">${heading('Galerii', 'Tehtud tööd.', 'Valik meie valminud parketi- ja puitpõrandatöödest.')}</section>${inspirationGallery('../')}${cta('../')}`,
   },
 };
 pages[''].body = pages[''].body.replace(/<section class="section faq">[\s\S]*?<\/section>/, '').replace(cta(''), '');
@@ -107,7 +107,7 @@ ${allRoutes.filter(([r])=>r!=='privaatsuspoliitika').map(([r,l])=>`- [${l}](http
 - Täpne hind sõltub töömahust, mustrist ja aluspinna seisukorrast; hinnad lepitakse kokku pakkumises.
 - Päringu vorm saadab kliendi andmed RK Meistrid OÜ Renoveerikodu kliendihaldusse ja päring märgistatakse Parketipaigaldaja.ee allikaga.
 - Disainivaade ja materjalinäidised on illustratiivsed; lõplik valik tehakse füüsilise näidise järgi.
-- Galerii sisaldab põrandatööde fotosid ja materjalinäidiseid.
+- Galerii sisaldab tehtud parketi- ja puitpõrandatööde fotosid.
 `);
 await writeFile('robots.txt', 'User-agent: *\nAllow: /\nSitemap: https://parketipaigaldaja.ee/sitemap.xml\n');
 await writeFile('.nojekyll', '');
