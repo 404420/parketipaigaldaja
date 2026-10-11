@@ -54,7 +54,14 @@ document.querySelector('#reset-design').addEventListener('click',()=>{design={..
 document.querySelector('#toggle-2d').addEventListener('click',()=>{forced2d=!forced2d;display();});
 document.querySelectorAll('[data-view]').forEach(btn=>btn.addEventListener('click',()=>room?.view(btn.dataset.view)));
 document.querySelector('#camera-reset').addEventListener('click',()=>room?.view('perspective'));
-document.querySelector('#design-quote').addEventListener('click',()=>openQuote({design}));
+document.querySelector('#design-quote').addEventListener('click',()=>{
+  const areaField=document.querySelector('#quote-area');
+  const area=Number(areaField.value);
+  if (!areaField.reportValidity() || !Number.isFinite(area) || area<1 || area>10000) { areaField.focus(); return; }
+  const floorType=document.querySelector('#quote-floor-type').value;
+  const typeName=document.querySelector('#quote-floor-type').selectedOptions[0].textContent;
+  openQuote({design,area, floorType, floorTypeName:typeName});
+});
 document.querySelector('#share-design').addEventListener('click',async()=>{
   const url=new URL(location.href);url.search=designQuery(design);url.hash='';
   const input=document.querySelector('#share-link');input.value=url.href;
