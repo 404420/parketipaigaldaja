@@ -2,8 +2,25 @@ import { mkdir, writeFile, copyFile, readFile } from 'node:fs/promises';
 import { images, photo, projectGallery, faqs, faqSection, materials, serviceLinks, servicePages, processGuide } from './editorial.mjs';
 import { company, services } from '../assets/config.js';
 const routes = [['', 'Avaleht'], ['meist', 'Meist'], ['hinnakiri', 'Hinnakiri'], ['vali-disain', 'Vali disain'], ['tehtud-tood', 'Tehtud tööd'], ['kontakt', 'Kontakt']];
-const inspirationPhotos = [["elutuba-tammeparkett.webp","Hele tammepõrand elutoas"],["kalasabaparkett-soogituba.webp","Kalasabaparkett söögitoas"],["tammeparkett-esik.webp","Tammepõrand esikus"],["parkett-magamistuba.webp","Parkett magamistoas"],["parkett-kook.webp","Puitpõrand köögis"],["tammepuidust-trepp.webp","Tammepuidust trepp"],["parkett-elutoas.webp","Puitpõrandaga elutuba"],["tammeparketiga-elutuba.webp","Tammeparketiga elutuba"],["kalasabaparkett-kook.webp","Kalasabaparkett köögis"],["tammeparkett-detail.webp","Parketipinna detail"]];
-const inspirationGallery = base => `<section class="section inspiration-section" id="galerii" aria-labelledby="gallery-title"><div class="inspiration-header"><div><p class="eyebrow">Galerii</p><h2 id="gallery-title">Tehtud tööd.</h2></div></div><div class="inspiration-gallery" data-gallery="tehtud-tood">${inspirationPhotos.map(([file,alt]) => `<button type="button" class="inspiration-tile" data-image="${base}assets/inspiratsioon/${file}" data-title="" aria-label="Suurenda pilti: ${alt}"><img src="${base}assets/inspiratsioon/${file}" alt="${alt}" width="1200" height="900" loading="lazy" decoding="async"></button>`).join('')}</div></section>`;
+const galleryPhotos = [
+  ["inspiratsioon/elutuba-tammeparkett.webp", "Hele tammepõrand elutoas"],
+  ["inspiratsioon/kalasabaparkett-soogituba.webp", "Kalasabaparkett söögitoas"],
+  ["inspiratsioon/tammeparkett-esik.webp", "Tammepõrand esikus"],
+  ["inspiratsioon/parkett-magamistuba.webp", "Parkett magamistoas"],
+  ["inspiratsioon/parkett-kook.webp", "Puitpõrand köögis"],
+  ["inspiratsioon/tammepuidust-trepp.webp", "Tammepuidust trepp"],
+  ["inspiratsioon/parkett-elutoas.webp", "Puitpõrandaga elutuba"],
+  ["inspiratsioon/tammeparketiga-elutuba.webp", "Tammeparketiga elutuba"],
+  ["inspiratsioon/kalasabaparkett-kook.webp", "Kalasabaparkett köögis"],
+  ["inspiratsioon/tammeparkett-detail.webp", "Parketipinna detail"],
+  ["projects/parketi-paigaldus-tallinn-renoveeri-kodu.webp", "Renoveeri Kodu parketipaigaldus Tallinna korteris"],
+  ["projects/parketi-paigaldus-tallinn-renoveerikodu-elutuba.webp", "Renoveeri Kodu valmis parkett elutoas"],
+  ["projects/parkett-aluspind.webp", "Renoveeri Kodu aluspõranda ettevalmistus"],
+  ["projects/parkett-paigaldus_tallinn.webp", "Renoveeri Kodu parketilaudade paigaldus"],
+  ["projects/parkett-viimistlus.webp", "Renoveeri Kodu parketi viimistlus"],
+  ["inspiratsioon/kalasabaparkett-naidisprojekt.jpg", "Kalasabaparketiga elutoa näidisprojekt", "Näidisprojekt · AI-visualiseering"],
+];
+const inspirationGallery = base => `<section class="section inspiration-section" id="galerii" aria-labelledby="gallery-title"><div class="inspiration-header"><div><p class="eyebrow">Galerii</p><h2 id="gallery-title">Tehtud tööd.</h2></div></div><div class="inspiration-gallery" data-gallery="tehtud-tood">${galleryPhotos.map(([file,alt,label]) => `<button type="button" class="inspiration-tile" data-image="${base}assets/${file}" data-title="${label || ''}" aria-label="Suurenda pilti: ${alt}"><img src="${base}assets/${file}" alt="${alt}" width="1200" height="900" loading="lazy" decoding="async">${label ? `<span class="gallery-badge">${label}</span>` : ''}</button>`).join('')}</div></section>`;
 const arrow = '<span aria-hidden="true">↗</span>';
 const button = (label, href, cls = '') => `<a class="button ${cls}" href="${href}">${label}${arrow}</a>`;
 const eyebrow = text => `<p class="eyebrow">${text}</p>`;
