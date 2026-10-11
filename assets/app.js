@@ -21,19 +21,47 @@ for (const dialog of [quoteDialog, imageDialog]) {
   dialog?.addEventListener('close', () => { document.body.classList.remove('dialog-open'); opener?.focus(); });
 }
 const form = document.querySelector('#quote-form');
-let quoteContext = null;
-function savedDesign() { try { return validateDesign(JSON.parse(localStorage.getItem(STORAGE_KEY))); } catch { return { ...defaults }; } }
-function fullSummary(d) { return `${summary(d)}\nSeinad: ${options.wall.find(o=>o.id===d.wall).name}; mööbel: ${options.furniture.find(o=>o.id===d.furniture).name}\nNäidistoa mõõdud: ${d.width} × ${d.length} m. Toonid on illustratiivsed.`; }
+/** Design selections are included only after explicit confirmation in the 3D studio. */
 export function openQuote(context = {}) {
-  const d = validateDesign(context.design || savedDesign());
-  quoteContext = context;
-  form.elements.area.value = context.area || '';
-  form.elements.design.value = context.calculatorSummary || fullSummary(d);
-  form.elements.floor_type.value = context.floorType || 'laudparkett';
-  form.elements.floor_tone.value = options.floor.find(o => o.id === d.floor).name;
-  form.elements.pattern.value = options.pattern.find(o => o.id === d.pattern).name;
-  form.elements.finish.value = options.finish.find(o => o.id === d.finish).name;
-  form.elements.form_started_at.value = String(Math.floor(Date.now()/1000));
+  if (!form || !quoteDialog) return;
+  form.reset();
+  const withDesign = Boolean(context.design);
+  const design = withDesign ? validateDesign(context.design) : null;
+  const hasSummary = withDesign || Boolean(context.calculatorSummary);
+  const selection = document.querySelector('#request-selection');
+  const selectionHeading = document.querySelector('#request-selection-heading');
+  const selectionSummary = document.querySelector('#request-selection-summary');
+  const typeName = context.floorTypeName || '';
+  const areaText = context.area ? String(context.area).replace('.', ',') + ' m²' : '';
+  let summaryText = '';
+  if (withDesign) {
+    const floorTone = options.floor.find(o => o.id === design.floor)?.name || '';
+    const pattern = options.pattern.find(o => o.id === design.pattern)?.name || '';
+    const finish = options.finish.find(o => o.id === design.finish)?.name || '';
+    summaryText = [
+      typeName && 'Põrandakate: ' + typeName,
+      areaText && 'Paigaldatav pindala: ' + areaText,
+      'Toon: ' + floorTone,
+      'Muster: ' + pattern,
+      'Viimistlus: ' + finish,
+      '3D näidistuba: ' + design.width + ' × ' + design.length + ' m',
+      'Võrdlustoonid: seinad ' + options.wall.find(o => o.id === design.wall).name
+        + ', mööbel ' + options.furniture.find(o => o.id === design.furniture).name,
+      'Värvid on illustratiivsed; täpne materjal kinnitatakse pakkumisel.'
+    ].filter(Boolean).join('\n');
+    form.elements.floor_tone.value = floorTone;
+    form.elements.pattern.value = pattern;
+    form.elements.finish.value = finish;
+  } else if (context.calculatorSummary) {
+    summaryText = context.calculatorSummary;
+  }
+  selection.hidden = !hasSummary;
+  selectionHeading.textContent = withDesign ? 'Sinu kinnitatud 3D põrandavalik' : 'Hinnapäringu tööde valik';
+  selectionSummary.textContent = summaryText;
+  form.elements.design.value = summaryText;
+  form.elements.floor_type.value = context.floorType || '';
+  form.elements.area.value = context.area ?? '';
+  form.elements.form_started_at.value = String(Math.floor(Date.now() / 1000));
   document.querySelector('#form-status').textContent = '';
   openDialog(quoteDialog);
   form.elements.name.focus();
