@@ -23,12 +23,17 @@ for (const dialog of [quoteDialog, imageDialog]) {
 const form = document.querySelector('#quote-form');
 let quoteContext = null;
 function savedDesign() { try { return validateDesign(JSON.parse(localStorage.getItem(STORAGE_KEY))); } catch { return { ...defaults }; } }
-function fullSummary(d) { return `${summary(d)}\nSeinad: ${options.wall.find(o=>o.id===d.wall).name}; mööbel: ${options.furniture.find(o=>o.id===d.furniture).name}\nRuumi mõõdud: ${d.width} × ${d.length} m. Toonid on illustratiivsed.`; }
+function fullSummary(d) { return `${summary(d)}\nSeinad: ${options.wall.find(o=>o.id===d.wall).name}; mööbel: ${options.furniture.find(o=>o.id===d.furniture).name}\nNäidistoa mõõdud: ${d.width} × ${d.length} m. Toonid on illustratiivsed.`; }
 export function openQuote(context = {}) {
   const d = validateDesign(context.design || savedDesign());
   quoteContext = context;
-  form.elements.area.value = context.area || (d.width * d.length).toFixed(1);
+  form.elements.area.value = context.area || '';
   form.elements.design.value = context.calculatorSummary || fullSummary(d);
+  form.elements.floor_type.value = context.floorType || 'laudparkett';
+  form.elements.floor_tone.value = options.floor.find(o => o.id === d.floor).name;
+  form.elements.pattern.value = options.pattern.find(o => o.id === d.pattern).name;
+  form.elements.finish.value = options.finish.find(o => o.id === d.finish).name;
+  form.elements.form_started_at.value = String(Math.floor(Date.now()/1000));
   document.querySelector('#form-status').textContent = '';
   openDialog(quoteDialog);
   form.elements.name.focus();
@@ -39,17 +44,21 @@ form?.addEventListener('submit', async e => {
   const status = document.querySelector('#form-status');
   if (!form.reportValidity()) return;
   const button = form.querySelector('[type=submit]');
-  button.disabled = true; status.textContent = 'Koostan päringut…';
+  button.disabled = true; status.textContent = 'Saadan hinnapäringut…';
   try {
-    const data = Object.fromEntries(new FormData(form));
-    if (!String(data.name).trim() || !String(data.location).trim()) throw new Error('Palun sisesta nimi ja asukoht.');
-    const text = `PARKETIPAIGALDAJA.EE — HINNAPÄRING\n\nNimi: ${data.name}\nE-post: ${data.email}\nTelefon: ${data.phone || '—'}\nAsukoht: ${data.location}\nPindala: ${data.area} m²\nSoovitud aeg: ${data.timing || '—'}\n\nDisain / lähteülesanne:\n${data.design}\n\nKirjeldus:\n${data.message || '—'}\n\nEsialgne lähteülesanne, mitte siduv pakkumine. Toonid on illustratiivsed.\n`;
-    // Download-only mode. No personal data is logged, persisted or sent.
-    const url = URL.createObjectURL(new Blob(['\ufeff'+text], { type: 'text/plain;charset=utf-8' }));
-    const link = document.createElement('a'); link.href = url; link.download = 'parketi-hinnaparing.txt'; document.body.append(link); link.click(); link.remove(); setTimeout(()=>URL.revokeObjectURL(url),1000);
-    status.textContent = 'Päringu fail on koostatud ja allalaadimine käivitatud. Päringut ei saadetud; edasta fail ise ettevõttele.';
-  } catch (error) { status.textContent = error.message || 'Faili koostamine ei õnnestunud. Proovi uuesti.'; }
-  finally { button.disabled = false; }
+    const data = new FormData(form);
+    data.set('consent','yes');
+    if (!company.formEndpoint) throw new Error('Päringute saatmise aadress pole seadistatud.');
+    const response = await fetch(company.formEndpoint,{
+      method:'POST',body:data,headers:{Accept:'application/json'},mode:'cors',credentials:'omit'
+    });
+    const result = await response.json().catch(()=>({success:false,message:'Server ei tagastanud korrektset vastust.'}));
+    if(!response.ok || !result.success) throw new Error(result.message || 'Päringu saatmine ebaõnnestus.');
+    status.textContent = result.message || 'Aitäh! Päring on saadetud.';
+    form.reset();
+  } catch (error) {
+    status.textContent = (error instanceof Error ? error.message : 'Päringu saatmine ebaõnnestus.') + ' Kui probleem kordub, kirjuta info@renoveerikodu.ee.';
+  } finally { button.disabled = false; }
 });
 document.querySelectorAll('[data-filter]').forEach(btn=>btn.addEventListener('click', ()=>{
   document.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed', String(b===btn)));
