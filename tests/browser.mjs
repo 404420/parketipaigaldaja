@@ -6,8 +6,16 @@ const browser=await chromium.launch({executablePath:process.env.BROWSER_PATH || 
 const context=await browser.newContext({viewport:{width:1440,height:1000},acceptDownloads:true});
 const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
 const base='http://127.0.0.1:4173';
-for(const path of ['/','/meist/','/hinnakiri/','/vali-disain/','/tehtud-tood/']){await page.goto(base+path);await page.locator('h1').waitFor();assert.equal(await page.locator('html').getAttribute('lang'),'et');assert.equal(await page.locator('nav a[aria-current="page"]').count(),1);}
+// Never send browser-test data to the live CRM.
+await page.route('https://www.renoveerikodu.ee/api/parketi-contact.php', route=>route.fulfill({status:200,contentType:'application/json',headers:{'Access-Control-Allow-Origin':base},body:JSON.stringify({success:true,message:'Aitäh! Hinnapäring on edastatud.'})}));
+for(const path of ['/','/meist/','/hinnakiri/','/vali-disain/','/tehtud-tood/','/kontakt/']){await page.goto(base+path);await page.locator('h1').waitFor();assert.equal(await page.locator('html').getAttribute('lang'),'et');assert.equal(await page.locator('nav a[aria-current="page"]').count(),1);}
 await page.goto(base+'/');await page.waitForTimeout(850);await page.evaluate(()=>document.querySelectorAll('img').forEach(i=>i.loading='eager'));await page.waitForFunction(()=>Array.from(document.querySelectorAll('img[src]')).every(i=>i.complete&&i.naturalWidth>0));await page.screenshot({path:'test-results/home-desktop.png',fullPage:true});
+await page.locator('header [data-quote]').click();
+assert.equal(await page.locator('textarea[name=design]').inputValue(),'','general quote must have no saved demo design');
+assert.equal(await page.locator('input[name=area]').inputValue(),'','general quote must have blank area');
+assert.equal(await page.locator('select[name=floor_type]').inputValue(),'','floor type is selected by the customer');
+assert.equal(await page.locator('#request-selection').isHidden(),true,'selection should be hidden');
+await page.keyboard.press('Escape');
 await page.goto(base+'/vali-disain/');await page.waitForFunction(()=>!document.querySelector('#scene-status').textContent.includes('laadib'),{timeout:30000});
 assert.ok((await page.locator('#scene-status').textContent()).includes('3D elutuba'),'actual WebGL scene must initialize');
 await page.screenshot({path:'test-results/design-desktop.png',fullPage:true});
@@ -17,16 +25,24 @@ await page.locator('#room-width').fill('6.3');await page.locator('#room-width').
 assert.equal(await page.locator('[data-key=pattern][data-value=chevron]').getAttribute('aria-pressed'),'true');
 assert.equal(await page.locator('#room-width').inputValue(),'6.3');await page.locator('#share-design').click();const link=await page.locator('#share-link').inputValue();
 await page.goto(link);assert.equal(await page.locator('[data-key=wall][data-value=sage]').getAttribute('aria-pressed'),'true');
-await page.locator('#design-quote').click();assert.ok((await page.locator('textarea[name=design]').inputValue()).includes('Chevron'));
+await page.locator('#quote-area').fill('47.5');
+await page.locator('#quote-floor-type').selectOption('laminaat');
+await page.locator('#design-quote').click();
+assert.ok((await page.locator('textarea[name=design]').inputValue()).includes('Chevron'));
+assert.ok((await page.locator('#request-selection-summary').textContent()).includes('47,5 m²'));
+assert.equal(await page.locator('#request-selection').isVisible(),true);
+assert.equal(await page.locator('select[name=floor_type]').inputValue(),'laminaat');
 await page.locator('[name=name]').fill('Testkasutaja');await page.locator('[name=email]').fill('test@example.com');await page.locator('[name=location]').fill('Testlinn');await page.locator('[name=consent]').check();
-const downloadPromise=page.waitForEvent('download');await page.locator('#quote-form [type=submit]').click();const download=await downloadPromise;assert.equal(download.suggestedFilename(),'parketi-hinnaparing.txt');assert.ok((await page.locator('#form-status').textContent()).includes('ei saadetud'));await page.keyboard.press('Escape');
+await page.locator('#quote-form [type=submit]').click();
+await page.waitForFunction(()=>document.querySelector('#form-status')?.textContent?.includes('edastatud'));
+await page.keyboard.press('Escape');
 await page.goto(base+'/vali-disain/?wall=bad&width=-10&pattern=invalid&view=2d');assert.equal(await page.locator('[data-key=wall][data-value=ivory]').getAttribute('aria-pressed'),'true');assert.equal(await page.locator('#room-width').inputValue(),'5');await page.locator('[data-key=floor][data-value=light]').click();await page.screenshot({path:'test-results/design-fallback.png',fullPage:true});
 await page.goto(base+'/hinnakiri/');await page.locator('#calc-area').fill('47');await page.locator('#calc-pattern').selectOption('chevron');await page.locator('#calculator [type=submit]').click();assert.equal(await page.locator('#quote-form [name=area]').inputValue(),'47');await page.keyboard.press('Escape');
 await page.goto(base+'/tehtud-tood/');await page.locator('[data-filter=projekt]').click();assert.equal(await page.locator('.gallery-card:visible').count(),2);await page.locator('.gallery-card:visible [data-image]').first().click();assert.equal(await page.locator('#image-dialog').evaluate(d=>d.open),true);await page.keyboard.press('Escape');
 await page.setViewportSize({width:360,height:800});await page.emulateMedia({reducedMotion:'reduce'});
-for(const path of ['/','/meist/','/hinnakiri/','/vali-disain/','/tehtud-tood/']){await page.goto(base+path);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`overflow: ${path}`);await page.locator('.menu-toggle').click();assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'),'true');await page.locator('nav a').first().focus();await page.keyboard.press('Escape');assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'),'false');}
+for(const path of ['/','/meist/','/hinnakiri/','/vali-disain/','/tehtud-tood/','/kontakt/']){await page.goto(base+path);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`overflow: ${path}`);await page.locator('.menu-toggle').click();assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'),'true');await page.locator('nav a').first().focus();await page.keyboard.press('Escape');assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'),'false');}
 await page.goto(base+'/');await page.screenshot({path:'test-results/home-mobile.png',fullPage:true});
 await page.goto(base+'/vali-disain/');await page.waitForTimeout(800);await page.screenshot({path:'test-results/design-mobile.png',fullPage:true});
 const fallbackContext=await browser.newContext();await fallbackContext.addInitScript(()=>{const original=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,...args){if(type==='webgl'||type==='webgl2')return null;return original.call(this,type,...args);};});const noGL=await fallbackContext.newPage();await noGL.goto(base+'/vali-disain/');await noGL.waitForFunction(()=>document.querySelector('#scene-status').textContent.includes('pole saadaval'));await noGL.locator('[data-key=wall][data-value=blue]').click();assert.equal(await noGL.locator('[data-key=wall][data-value=blue]').getAttribute('aria-pressed'),'true');await fallbackContext.close();
-assert.deepEqual(errors,[]);await browser.close();console.log('Viis marsruuti, 360 px, päris WebGL, kolm mustrit, disain, salvestus, jagamine, WebGL tõrke fallback, galerii ja päring kontrollitud.');
+assert.deepEqual(errors,[]);await browser.close();console.log('Kuus marsruuti, 360 px, päris WebGL, kolm mustrit, disain, salvestus, jagamine, WebGL tõrke fallback, galerii ja päring kontrollitud.');
 
