@@ -6,8 +6,8 @@ export const company = {
   email: 'info@renoveerikodu.ee',
   phone: '+372 5551 5783',
   region: 'Tallinn ja Harjumaa',
-  vatNote: 'Hinnad on töö alghinnad. Käibemaksu kohaldumine täpsustatakse pakkumises.'
-  materialNote: 'Materjalid ja aluspõranda ettevalmistus hinnastatakse eraldi, kui pole teisiti kokku lepitud.'
+  vatNote: 'Hinnad on töö alghinnad. Käibemaksu kohaldumine täpsustatakse pakkumises.',
+  materialNote: 'Materjalid ja aluspõranda ettevalmistus hinnastatakse eraldi, kui pole teisiti kokku lepitud.',
   formEndpoint: 'https://www.renoveerikodu.ee/api/parketi-contact.php',
 };
 /** @type {Service[]} */
