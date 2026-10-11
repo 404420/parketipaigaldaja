@@ -71,8 +71,8 @@ for (const [route, label] of allRoutes) {
   const url = `https://parketipaigaldaja.ee/${route ? route+'/' : ''}`;
   const graph = [
     {'@type':'WebSite','@id':'https://parketipaigaldaja.ee/#website',url:'https://parketipaigaldaja.ee/',name:company.brand,inLanguage:'et'},
-    {'@type':'HomeAndConstructionBusiness','@id':'https://parketipaigaldaja.ee/#business',name:company.brand,legalName:company.legalName,url:'https://parketipaigaldaja.ee/',telephone:company.phone,email:company.email,areaServed:['Tallinn','Harjumaa'],sameAs:['https://www.renoveerikodu.ee/']},
-    {'@type':'WebPage','@id':url+'#webpage',url,name:p.title,description:p.description,inLanguage:'et',isPartOf:{'@id':'https://parketipaigaldaja.ee/#website'},about:{'@id':'https://parketipaigaldaja.ee/#business'}},
+    {'@type':'HomeAndConstructionBusiness','@id':'https://parketipaigaldaja.ee/#business',name:company.brand,legalName:company.legalName,url:'https://parketipaigaldaja.ee/',telephone:company.phone,email:company.email,identifier:company.registryCode,areaServed:['Tallinn','Harjumaa'],sameAs:['https://www.renoveerikodu.ee/']},
+    {'@type':route==='kontakt'?'ContactPage':'WebPage','@id':url+'#webpage',url,name:p.title,description:p.description,inLanguage:'et',isPartOf:{'@id':'https://parketipaigaldaja.ee/#website'},about:{'@id':'https://parketipaigaldaja.ee/#business'}},
     {'@type':'BreadcrumbList',itemListElement:[{'@type':'ListItem',position:1,name:'Avaleht',item:'https://parketipaigaldaja.ee/'},...(route?[{'@type':'ListItem',position:2,name:p.title,item:url}]:[])]},
   ];
   if (!route) graph.push({'@type':'FAQPage',mainEntity:faqs.map(([q,a])=>({'@type':'Question',name:q,acceptedAnswer:{'@type':'Answer',text:a}}))});
