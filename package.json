@@ -9,8 +9,14 @@
     "lint": "node scripts/check.mjs",
     "typecheck": "tsc --allowJs --checkJs --noEmit --target es2022 --module nodenext assets/state.js assets/config.js",
     "test": "node --test tests/state.test.mjs",
-    "test:browser": "node tests/browser.mjs"
+    "test:browser": "node tests/browser.mjs",
+    "test:mobile": "node tests/mobile-design.mjs"
   },
-  "dependencies": { "three": "0.180.0" },
-  "devDependencies": { "playwright": "1.55.1", "typescript": "5.9.2" }
+  "dependencies": {
+    "three": "0.180.0"
+  },
+  "devDependencies": {
+    "playwright": "1.55.1",
+    "typescript": "5.9.2"
+  }
 }

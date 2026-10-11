@@ -2,7 +2,7 @@ import { chromium } from 'playwright';
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
 await mkdir('test-results',{recursive:true});
-const browser=await chromium.launch({channel:'msedge',headless:true});
+const browser=await chromium.launch({executablePath:process.env.BROWSER_PATH || '/usr/bin/chromium',args:['--no-sandbox'],headless:true});
 const context=await browser.newContext({viewport:{width:1440,height:1000},acceptDownloads:true});
 const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
 const base='http://127.0.0.1:4173';
@@ -22,7 +22,7 @@ await page.locator('[name=name]').fill('Testkasutaja');await page.locator('[name
 const downloadPromise=page.waitForEvent('download');await page.locator('#quote-form [type=submit]').click();const download=await downloadPromise;assert.equal(download.suggestedFilename(),'parketi-hinnaparing.txt');assert.ok((await page.locator('#form-status').textContent()).includes('ei saadetud'));await page.keyboard.press('Escape');
 await page.goto(base+'/vali-disain/?wall=bad&width=-10&pattern=invalid&view=2d');assert.equal(await page.locator('[data-key=wall][data-value=ivory]').getAttribute('aria-pressed'),'true');assert.equal(await page.locator('#room-width').inputValue(),'5');await page.locator('[data-key=floor][data-value=light]').click();await page.screenshot({path:'test-results/design-fallback.png',fullPage:true});
 await page.goto(base+'/hinnakiri/');await page.locator('#calc-area').fill('47');await page.locator('#calc-pattern').selectOption('chevron');await page.locator('#calculator [type=submit]').click();assert.equal(await page.locator('#quote-form [name=area]').inputValue(),'47');await page.keyboard.press('Escape');
-await page.goto(base+'/tehtud-tood/');await page.locator('[data-filter=chevron]').click();assert.equal(await page.locator('.gallery-card:visible').count(),1);await page.locator('.gallery-card:visible [data-image]').click();assert.equal(await page.locator('#image-dialog').evaluate(d=>d.open),true);await page.keyboard.press('Escape');
+await page.goto(base+'/tehtud-tood/');await page.locator('[data-filter=projekt]').click();assert.equal(await page.locator('.gallery-card:visible').count(),2);await page.locator('.gallery-card:visible [data-image]').first().click();assert.equal(await page.locator('#image-dialog').evaluate(d=>d.open),true);await page.keyboard.press('Escape');
 await page.setViewportSize({width:360,height:800});await page.emulateMedia({reducedMotion:'reduce'});
 for(const path of ['/','/meist/','/hinnakiri/','/vali-disain/','/tehtud-tood/']){await page.goto(base+path);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`overflow: ${path}`);await page.locator('.menu-toggle').click();assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'),'true');await page.locator('nav a').first().focus();await page.keyboard.press('Escape');assert.equal(await page.locator('.menu-toggle').getAttribute('aria-expanded'),'false');}
 await page.goto(base+'/');await page.screenshot({path:'test-results/home-mobile.png',fullPage:true});

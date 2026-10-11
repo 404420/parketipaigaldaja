@@ -1,0 +1,142 @@
+[
+  {
+    "file": "parketi-paigaldus-tallinn-renoveeri-kodu.webp",
+    "small": "parketi-paigaldus-tallinn-renoveeri-kodu-640.webp",
+    "width": 1080,
+    "height": 1440,
+    "smallWidth": 480,
+    "title": "Parketi paigaldus Tallinna korteris",
+    "category": "projekt",
+    "source": "parketi-paigaldus-tallinn-renoveeri-kodu.jpg"
+  },
+  {
+    "file": "parketi-paigaldus-tallinn-renoveerikodu-elutuba.webp",
+    "small": "parketi-paigaldus-tallinn-renoveerikodu-elutuba-640.webp",
+    "width": 1440,
+    "height": 1080,
+    "smallWidth": 640,
+    "title": "Valmis parkett elutoas",
+    "category": "projekt",
+    "source": "parketi-paigaldus-tallinn-renoveerikodu-elutuba.jpeg"
+  },
+  {
+    "file": "parkett-aluspind.webp",
+    "small": "parkett-aluspind-640.webp",
+    "width": 600,
+    "height": 450,
+    "smallWidth": 600,
+    "title": "Aluspõranda ettevalmistus",
+    "category": "tooprotsess",
+    "source": "parkett-aluspind.jpg"
+  },
+  {
+    "file": "parkett-paigaldus_tallinn.webp",
+    "small": "parkett-paigaldus_tallinn-640.webp",
+    "width": 600,
+    "height": 450,
+    "smallWidth": 600,
+    "title": "Parketilaudade paigaldamine",
+    "category": "tooprotsess",
+    "source": "parkett-paigaldus_tallinn.jpg"
+  },
+  {
+    "file": "parkett-viimistlus.webp",
+    "small": "parkett-viimistlus-640.webp",
+    "width": 600,
+    "height": 450,
+    "smallWidth": 600,
+    "title": "Parketi viimistlus ja detailid",
+    "category": "tooprotsess",
+    "source": "parkett-viimistlus.jpg"
+  },
+  {
+    "file": "porandakate-laudparkett-naidis.webp",
+    "small": "porandakate-laudparkett-naidis-640.webp",
+    "width": 960,
+    "height": 720,
+    "smallWidth": 640,
+    "title": "Kihilise laudparketi materjalinäidis",
+    "category": "naidis",
+    "source": "porandakate-laudparkett-naidis.optimized.webp"
+  },
+  {
+    "file": "porandakate-laminaat-naidis.webp",
+    "small": "porandakate-laminaat-naidis-640.webp",
+    "width": 960,
+    "height": 720,
+    "smallWidth": 640,
+    "title": "Laminaatpõranda materjalinäidis",
+    "category": "naidis",
+    "source": "porandakate-laminaat-naidis.optimized.webp"
+  },
+  {
+    "file": "porandakate-lvt-naidis.webp",
+    "small": "porandakate-lvt-naidis-640.webp",
+    "width": 960,
+    "height": 720,
+    "smallWidth": 640,
+    "title": "LVT-vinüülpõranda materjalinäidis",
+    "category": "naidis",
+    "source": "porandakate-lvt-naidis.optimized.webp"
+  },
+  {
+    "file": "porandakate-taispuit-naidis.webp",
+    "small": "porandakate-taispuit-naidis-640.webp",
+    "width": 960,
+    "height": 720,
+    "smallWidth": 640,
+    "title": "Täispuitpõranda materjalinäidis",
+    "category": "naidis",
+    "source": "porandakate-taispuit-naidis.optimized.webp"
+  },
+  {
+    "file": "parketi-kuumvaha-paranduse-naidispilt.webp",
+    "small": "parketi-kuumvaha-paranduse-naidispilt-640.webp",
+    "width": 1400,
+    "height": 788,
+    "smallWidth": 640,
+    "title": "Parketi täkke kuumvahaparanduse etapid",
+    "category": "naidis",
+    "source": "parketi-kuumvaha-paranduse-naidispilt.optimized.webp"
+  },
+  {
+    "file": "parketi-kuumvaha-hero-jootekolviga.webp",
+    "small": "parketi-kuumvaha-hero-jootekolviga-640.webp",
+    "width": 1400,
+    "height": 788,
+    "smallWidth": 640,
+    "title": "Parketi kohtparandus kuumvahaga",
+    "category": "naidis",
+    "source": "parketi-kuumvaha-hero-jootekolviga.optimized.webp"
+  },
+  {
+    "file": "parketi-lihvimine-lintmasinaga.webp",
+    "small": "parketi-lihvimine-lintmasinaga-640.webp",
+    "width": 1400,
+    "height": 788,
+    "smallWidth": 640,
+    "title": "Parketi lihvimine lintmasinaga",
+    "category": "naidis",
+    "source": "parketi-lihvimine-lintmasinaga.optimized.webp"
+  },
+  {
+    "file": "parketi-servade-lihvimine.webp",
+    "small": "parketi-servade-lihvimine-640.webp",
+    "width": 1280,
+    "height": 960,
+    "smallWidth": 640,
+    "title": "Parketi servade lihvimine",
+    "category": "naidis",
+    "source": "parketi-servade-lihvimine.optimized.webp"
+  },
+  {
+    "file": "kvaliteedikontroll-porand.webp",
+    "small": "kvaliteedikontroll-porand-640.webp",
+    "width": 1000,
+    "height": 667,
+    "smallWidth": 640,
+    "title": "Põranda kvaliteedikontrolli näide",
+    "category": "naidis",
+    "source": "kvaliteedikontroll-porand.webp"
+  }
+]

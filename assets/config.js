@@ -2,10 +2,10 @@
 /** Confirm these facts before publication. Null values must never become invented facts. */
 export const company = {
   brand: 'parketipaigaldaja.ee',
-  legalName: null, // TODO: kinnitatud ärinimi
-  email: null, // TODO: kinnitatud e-post
-  phone: null, // TODO: kinnitatud telefon
-  region: null, // TODO: tegutsemispiirkond
+  legalName: 'RK Meistrid OÜ',
+  email: 'info@renoveerikodu.ee',
+  phone: '+372 5551 5783',
+  region: 'Tallinn ja Harjumaa',
   vatNote: null, // TODO: käibemaksu käsitlus
   materialNote: null, // TODO: materjalide hinna käsitlus
   formEndpoint: null, // TODO: oma serveri HTTPS endpoint

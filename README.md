@@ -1,6 +1,6 @@
 # parketipaigaldaja.ee
 
-Eestikeelne staatiline veebileht: HTML, CSS ja brauseri JavaScript. Ei vaja Next.js-i, Reacti, andmebaasi ega serveripoolset renderdamist. Kõik kuus lehte on päris HTML-failid. 3D sõltuvused on kohalikud ja laaditakse ainult disainistuudios.
+Eestikeelne staatiline veebileht: HTML, CSS ja brauseri JavaScript. Ei vaja Next.js-i, Reacti, andmebaasi ega serveripoolset renderdamist. Kõik üheksa lehte on päris HTML-failid. 3D sõltuvused on kohalikud ja laaditakse ainult disainistuudios.
 
 ## Käivitamine ja kontrollid
 
@@ -21,7 +21,7 @@ npm test
 npm run test:browser
 ```
 
-Brauserikontroll kasutab kohalikku Microsoft Edge'i ja nõuab töötavat dev-serverit. Kontrollib viit marsruuti, 360 px vaadet, reduced-motion režiimi, disaini püsimist, jagamislingi taastamist, vigast URL-i, 2D eelvaadet, galeriid ja päringu allalaadimist.
+Brauserikontroll kasutab kohalikku Chromiumi (vajadusel `BROWSER_PATH`) ja nõuab töötavat dev-serverit. Kontrollib viit marsruuti, 360 px vaadet, reduced-motion režiimi, disaini püsimist, jagamislingi taastamist, vigast URL-i, 2D eelvaadet, galeriid ja päringu allalaadimist.
 
 HTML-i sisu muuda failis `scripts/build.mjs` ja käivita `npm run build`. Stiilid: `assets/style.css`. Ühised käitumised: `assets/app.js`. 3D: `assets/room3d.js`; põrandamustrid ja 2D: `assets/floor.js`.
 
@@ -31,7 +31,7 @@ Täida ja kinnita `assets/config.js`: ärinimi, kontaktid, tegutsemispiirkond, t
 
 Lisa kinnitatud projektifotod ja andmed inspiratsioonigalerii asemele. Praegused visuaalid on märgistatud inspiratsioonina. Kohanda kanoonilisi URL-e, sitemap'i ja jagamispildi URL-i, kui avalik domeen erineb `parketipaigaldaja.ee`-st.
 
-GitHub Pagesi avaldamine on omaniku korraldusel aktiveeritud. Avalik aadress: https://404420.github.io/parketipaigaldaja/. Main-haru push käivitab avaldamise automaatselt; töövoogu saab käivitada ka GitHub Actionsi `Run workflow` toiminguga. Domeen parketipaigaldaja.ee ei ole Pagesi seadistuses veel ühendatud. Töövoog avaldab repositooriumi staatilise sisu; ära pane repositooriumisse saladusi.
+GitHub Pagesi avaldamine on omaniku korraldusel aktiveeritud. Avalik aadress: https://404420.github.io/parketipaigaldaja/. Main-haru push käivitab avaldamise automaatselt; töövoogu saab käivitada ka GitHub Actionsi `Run workflow` toiminguga. Domeen https://parketipaigaldaja.ee/ serveerib sama saiti Verceli kaudu (kontrollitud 11.10.2026). SEO kanoonilised aadressid kasutavad seda domeeni. Töövoog avaldab repositooriumi staatilise sisu; ära pane repositooriumisse saladusi.
 
 ## Disainistuudio
 
@@ -62,3 +62,11 @@ Higgsfieldi ja GitHubi ühendustööriistad ei olnud selles seansis saadaval. Re
 3D on stiilne illustreeriv ruumimudel, mitte mõõdistatud ruumi fotorealistlik digikaksik. Ekraanitoonid ja materjalide läige sõltuvad seadmest; lõplik valik vajab päris materjalinäidist. 2D on lihtsustatud ruumiillustratsioon. Hinnad, ettevõtte faktid, päris referentsid ja e-posti saatmine vajavad omaniku kinnitatud andmeid ja seadistust.
 
 
+
+## Fotod, SEO ja telefonivaade
+
+14 erinevat pilti ning 4 SVG tööetappide illustratsiooni pärinevad Renoveeri Kodu repost. Pildid on kohalikus `assets/projects/` kaustas, WebP piltidel on väiksema ekraani variant. Lähtefailid ja pildi liik: `scripts/project-images.json`. Galerii eristab tööfotosid ja illustratiivseid näidiseid. Tekstid on kohandatud Renoveeri Kodu parketipaigalduse ning paranduse lehtedest.
+
+Lisatud teenuselehed: `/parketi-paigaldus/`, `/laminaadi-paigaldus/`, `/parketi-parandus/`. Genereeritakse metaandmed, kanoonilised URL-id, Open Graph, Twitter, ettevõtte, teenuse, FAQ ja Breadcrumb JSON-LD, sitemap ja `llms.txt`. Privaatsuspoliitika on noindex. GEO sisu annab konkreetsed vastused ja piirkonnainfo.
+
+Telefonis saab disaini valida kuue sammuga, kasutada kolme kiirvalikut ning jagada disaini seadme jagamisfunktsiooniga. Valikud salvestuvad brauserisse; eelvaade püsib nähtaval.

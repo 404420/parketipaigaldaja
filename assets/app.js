@@ -56,7 +56,8 @@ document.querySelectorAll('[data-filter]').forEach(btn=>btn.addEventListener('cl
   document.querySelectorAll('.gallery-card').forEach(card=>card.hidden=btn.dataset.filter!=='all' && card.dataset.pattern!==btn.dataset.filter);
 }));
 document.querySelectorAll('[data-image]').forEach(btn=>btn.addEventListener('click', ()=>{
-  const image = document.querySelector('#large-image'); image.src=btn.dataset.image; image.alt=btn.dataset.title+' — illustratiivne inspiratsioon';
+  const image = document.querySelector('#large-image'); image.src=btn.dataset.image; image.alt=btn.dataset.title;
+  document.querySelector('#image-caption').textContent=btn.dataset.caption || 'Illustratiivne disaininäide';
   document.querySelector('#image-title').textContent=btn.dataset.title; openDialog(imageDialog);
 }));
 const calculator = document.querySelector('#calculator');
