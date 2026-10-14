@@ -87,3 +87,8 @@
 #image-dialog #image-title[hidden]{display:none}
 @media(max-width:900px){.inspiration-gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.inspiration-header{align-items:start;flex-direction:column}}
 @media(max-width:500px){.inspiration-section{padding-top:55px;padding-bottom:65px}.inspiration-gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.inspiration-tile img{aspect-ratio:3/4;max-height:230px}.inspiration-header{margin-bottom:24px}}
+/* Parketi kohtparanduse juhend. */
+.repair-hero .hero-copy h1{font-size:clamp(44px,4.7vw,76px)}.repair-hero .hero-copy>p:not(.eyebrow){max-width:470px}.repair-hero .hero-image,.repair-hero .hero-image>img{min-height:460px}.repair-process-image{margin:32px 0}.repair-process-image img{width:100%;height:auto}.repair-guide figcaption,.editorial-layout figcaption{font-size:12px;color:var(--muted);margin-top:12px}.repair-steps{list-style:none;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:28px}.repair-steps li{border-top:1px solid var(--line);padding-top:22px}.repair-steps h3{font-size:22px;margin:18px 0 12px}.repair-steps p{color:var(--muted)}.repair-request{background:#ece7dc}.repair-request>p{max-width:780px}.repair-request .button{margin-top:15px}
+@media(min-width:851px) and (max-width:1350px){.site-header{padding-inline:2.5%;gap:12px}.site-header nav{gap:12px}.site-header nav>a{font-size:11px}.site-header nav .nav-cta{padding:12px}}
+@media(max-width:850px){.repair-steps{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.repair-hero .hero-image,.repair-hero .hero-image>img{min-height:0;height:auto}.repair-steps{grid-template-columns:1fr}.repair-hero .hero-copy h1{font-size:44px}}
